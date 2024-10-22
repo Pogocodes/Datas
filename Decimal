@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 32 // Maximum size of the stack (can be increased if needed)
+
+// Structure to represent the stack
+struct Stack {
+    int items[MAX];  // Array to store stack elements
+    int top;         // Index of the top element
+};
+
+// Function to create and initialize a stack
+void createStack(struct Stack* stack) {
+    stack->top = -1;  // Initialize top to -1 to indicate that the stack is empty
+}
+
+// Function to check if the stack is full
+int isFull(struct Stack* stack) {
+    return (stack->top == MAX - 1);
+}
+
+// Function to check if the stack is empty
+int isEmpty(struct Stack* stack) {
+    return (stack->top == -1);
+}
+
+// Function to push an element onto the stack
+void push(struct Stack* stack, int value) {
+    if (isFull(stack)) {
+        printf("Stack is full. Cannot push %d.\n", value);
+        return;
+    }
+    stack->items[++stack->top] = value;  // Push value and increment top
+}
+
+// Function to pop an element from the stack
+int pop(struct Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack is empty. Cannot pop.\n");
+        return -1;  // Return -1 if the stack is empty
+    }
+    return stack->items[stack->top--];  // Return the top value and decrement top
+}
+
+// Function to convert decimal to binary using stack
+void decimalToBinary(int decimal) {
+    struct Stack stack;      // Declare the stack
+    createStack(&stack);     // Initialize the stack
+
+    // Push remainders onto the stack
+    while (decimal > 0) {
+        int remainder = decimal % 2;  // Get the remainder
+        push(&stack, remainder);       // Push the remainder onto the stack
+        decimal /= 2;                  // Divide the number by 2
+    }
+
+    // Pop elements from the stack to get the binary representation
+    printf("Binary representation: ");
+    while (!isEmpty(&stack)) {
+        printf("%d", pop(&stack));  // Print the popped values
+    }
+    printf("\n");
+}
+
+// Main function
+int main() {
+    int decimal;
+
+    // Input decimal number from the user
+    printf("Enter a decimal number: ");
+    scanf("%d", &decimal);
+
+    // Convert decimal to binary
+    decimalToBinary(decimal);
+
+    return 0;
+}
