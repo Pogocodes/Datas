@@ -1,0 +1,63 @@
+#include <stdio.h>
+
+#define MAX 100  // Define the maximum size for the stack
+
+char stack[MAX];
+int top = -1;  // Initialize stack with top = -1 indicating empty stack
+
+// Function to push a character onto the stack
+void push(char ch) {
+    if (top == MAX - 1) {
+        printf("Stack Overflow\n");
+    } else {
+        stack[++top] = ch;  // Increment top and push character
+    }
+}
+
+// Function to pop a character from the stack
+char pop() {
+    if (top == -1) {
+        printf("Stack Underflow\n");
+        return '\0';  // Return null character if stack is empty
+    } else {
+        return stack[top--];  // Pop the top character and decrement top
+    }
+}
+
+// Function to reverse a string using a stack without using string functions
+void reverseString(char str[]) {
+    int i = 0;
+
+    // Push all characters of the string onto the stack
+    while (str[i] != '\0') {  // Continue until the end of the string
+        push(str[i]);
+        i++;
+    }
+
+    // Pop all characters from the stack and overwrite the original string
+    i = 0;
+    while (top != -1) {
+        str[i] = pop();
+        i++;
+    }
+}
+
+int main() {
+    char str[MAX];
+    int i = 0;
+
+    // Input the string
+    printf("Enter a string: ");
+    while ((str[i] = getchar()) != '\n' && i < MAX - 1) {
+        i++;  // Read the input character by character
+    }
+    str[i] = '\0';  // Null-terminate the string
+
+    // Reverse the string using the stack
+    reverseString(str);
+
+    // Output the reversed string
+    printf("Reversed string: %s\n", str);
+
+    return 0;
+}
